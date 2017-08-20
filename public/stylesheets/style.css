@@ -1,0 +1,90 @@
+body {
+  padding: 20px 50px;
+}
+
+.container {
+  width: 90%;
+  padding-top: 50px;
+}
+
+.grid_wrapper {
+  display: grid;
+  grid-template-columns:repeat(4, 1fr);
+  grid-gap: 20px;
+  grid-auto-rows: minmax(100px, auto);
+}
+
+.project_panel {
+  width: 300px;
+  height: 150px;
+  border-radius: 0;
+}
+
+.project_panel div {
+  border-radius: 0;  
+}
+
+.project_panel_button_div {
+  float: right;
+  width: 20%;
+}
+
+.project_panel_edit_button {
+  float: right;
+  margin-top: 43px;
+}
+
+.project_panel_edit_button a {
+  border-radius: 0;
+}
+
+.project_panel_edit_button ul {
+  padding: 10px;
+}
+
+.project_panel_edit_button ul input {
+  border-radius: 0;
+  margin-bottom: 5px
+}
+
+.project_panel_edit_button ul button {
+  border-radius: 0;
+  margin-top: 5px;
+  width: 50%;
+}
+
+.project_panel_description_div {
+  width: 80%;
+  float: left;
+  text-overflow: clip;
+}
+
+.add_project_div {
+  border-radius: 0;
+  text-align: center;
+  width: 300px;
+  height: 150px;
+}
+
+.add_project_div h1 {
+  font-size: 80px;
+  margin: 0;
+  padding: 0;
+  opacity: 0.4;
+  margin-top: 10px;
+}
+
+.add_project_div:hover {
+  opacity: 0.8;
+}
+
+.panel-heading:hover {
+  opacity: 0.8;
+}
+
+.panel-title {
+  font-size: 20px;
+}
+
+
+
