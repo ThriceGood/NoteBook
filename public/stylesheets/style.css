@@ -60,6 +60,7 @@ body {
 
 .project_panel_description_div {
   width: 80%;
+  padding-right: 10px;
   float: left;
   text-overflow: clip;
 }
@@ -81,7 +82,7 @@ body {
   text-align: center;
   width: 300px;
   height: 150px;
-  padding-top: 13px;
+  padding-top: 10px;
 }
 
 .add_project_div h1 {
@@ -89,7 +90,7 @@ body {
   margin: 0;
   padding: 0;
   opacity: 0.4;
-  margin-top: 15px;
+  margin-top: 20px;
 }
 
 .add_project_div input {
