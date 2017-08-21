@@ -64,6 +64,18 @@ body {
   text-overflow: clip;
 }
 
+.panel-heading {
+  cursor: pointer;
+}
+
+.panel-heading:hover {
+  opacity: 0.8;
+}
+
+.panel-title {
+  font-size: 20px;
+}
+
 .add_project_div {
   border-radius: 0;
   text-align: center;
@@ -108,12 +120,4 @@ body {
 
 .add_project_div:hover {
   opacity: 0.8;
-}
-
-.panel-heading:hover {
-  opacity: 0.8;
-}
-
-.panel-title {
-  font-size: 20px;
 }
