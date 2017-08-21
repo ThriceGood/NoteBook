@@ -21,7 +21,7 @@ body {
 }
 
 .project_panel div {
-  border-radius: 0;  
+  border-radius: 0;
 }
 
 .project_panel_button_div {
@@ -40,11 +40,16 @@ body {
 
 .project_panel_edit_button ul {
   padding: 10px;
+  width: 200px;
 }
 
 .project_panel_edit_button ul input {
   border-radius: 0;
   margin-bottom: 5px
+}
+
+.project_panel_edit_button ul textarea {
+  border-radius: 0;
 }
 
 .project_panel_edit_button ul button {
@@ -64,6 +69,7 @@ body {
   text-align: center;
   width: 300px;
   height: 150px;
+  padding-top: 13px;
 }
 
 .add_project_div h1 {
@@ -71,7 +77,33 @@ body {
   margin: 0;
   padding: 0;
   opacity: 0.4;
-  margin-top: 10px;
+  margin-top: 15px;
+}
+
+.add_project_div input {
+  margin-bottom: 5px;
+  border-radius: 0;
+}
+
+.add_project_div textarea {
+  border-radius: 0;
+  margin-bottom: 5px;
+}
+
+.add_project_cancel_btn {
+  float: right;
+  border-radius: 0;
+}
+
+.add_project_save_btn {
+  float: right;
+  border-radius: 0;
+}
+
+.add_project_colour_select {
+  float: left;
+  width: 51%;
+  border-radius: 0;
 }
 
 .add_project_div:hover {
@@ -85,6 +117,3 @@ body {
 .panel-title {
   font-size: 20px;
 }
-
-
-

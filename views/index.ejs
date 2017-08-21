@@ -31,3 +31,52 @@
   </div>
 
 </div>
+
+<script type="text/javascript">
+
+  $('.panel-heading').click(function(event) {
+    window.location.href = '/project';
+  });
+
+  add_project_cancel = function(event) {
+    $('.add_project_div').fadeOut(function() {
+      $('.add_project_div').html('<h1>+</h1>');
+      $('.add_project_div').click(add_project_click);
+      $('.add_project_div').fadeIn();
+    });
+  }
+
+  add_project_save = function(event) {
+    $('.add_project_div').fadeOut(function() {
+      $('.add_project_div').html('<h1>+</h1>');
+      $('.add_project_div').click(add_project_click);
+      $('.add_project_div').fadeIn();
+      // call ajax save
+    });
+  }
+
+  add_project_click = function(event) {
+    $('.add_project_div').fadeOut(function() {
+        $('.add_project_div').html(
+          `
+            <input class="form-control" type="text" name="name" placeholder="name">
+            <textarea class="form-control" rows="1" type="text" name="description" placeholder="description"></textarea>
+            <select class="form-control add_project_colour_select">
+              <option>Blue</option>
+              <option>Green</option>
+            </select>
+            <button class="btn btn-default btn-md add_project_save_btn">Save</button>
+            <button class="btn btn-warning btn-md add_project_cancel_btn">Cancel</button>
+          `
+        );
+        $('.add_project_div').unbind('click');
+        $('.add_project_cancel_btn').click(add_project_cancel);
+        $('.add_project_save_btn').click(add_project_save);
+        $('.add_project_div').fadeIn();
+    });
+  }
+
+  $('.add_project_div').click(add_project_click);
+
+
+</script>
