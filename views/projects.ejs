@@ -133,20 +133,41 @@
     edit_project_save_click = function(event){
       var project_name = $(event.target).parents('ul').children('li')[0].firstChild.value;
       var project_description = $(event.target).parents('ul').children('li')[1].firstChild.value;
-      // ajax to save content
-      // if content saves then update element
-      $(event.target).parents('.panel')[0].childNodes[1].firstElementChild.innerHTML = project_name;
-      $(event.target).parents('.panel')[0].children[1].children[0].children[0].innerHTML = project_description;
+      project_data = {
+        name: project_name,
+        description: project_description
+      };
+      $.ajax({
+        url: "/",
+        type: 'PUT',
+        data: project_data,
+        success: function(response) {
+          console.log(response);
+          if (response.status == true) {
+            $(event.target).parents('.panel')[0].childNodes[1].firstElementChild.innerHTML = project_name;
+            $(event.target).parents('.panel')[0].children[1].children[0].children[0].innerHTML = project_description;
+          } else {
+            // there was an issue
+          }
+        },
+      });
     }
 
     edit_project_delete_click = function(event){
       if (!confirm('Are you sure you want to delete this project and all its contents?')) return
       var project_name = $(event.target).parents('ul').children('li')[0].firstChild.attributes.value.value;
-      var panel_id = $(event.target).parents('.panel')[0].attributes.id.value;
-      // delete with ajax
-      $('#' + panel_id).fadeOut(
-        $('#' + panel_id).remove()
-      );
+      var panel_id = '#' + $(event.target).parents('.panel')[0].attributes.id.value;
+      $.ajax({
+          url: "/" + project_name,
+          type: 'DELETE',
+          success: function(response) {
+            if (response.status == true) {
+              $(panel_id).fadeOut($(panel_id).remove());
+            } else {
+              // there was an issue
+            }
+          },
+      });
     }
 
     $('.project_save').click(edit_project_save_click);

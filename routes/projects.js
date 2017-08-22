@@ -46,13 +46,46 @@ router.post('/', function(req, res, next) {
     description: req.body.description,
     colour: req.body.colour
   });
+  if (!project.name && !project.colour) {
+    res.json({status: false});
+  }
   project.save(function(err, project) {
-      if (err) {
+      if (err || !project) {
         res.json({status: false});
       } else {
         res.json({status: true});
       }
   })
 });
+
+router.put('/', function(req, res, next) {
+  var project = {
+    name: req.body.name,
+    description: req.body.description,
+    // colour: req.body.colour
+  };
+  if (!project.name) {
+    res.json({status: false});
+  }
+  Project.update({name: req.body.name}, {$set: project}, function(err, project){
+    console.log(project);
+    if (err || !project) {
+      res.json({status: false});
+    } else {
+      res.json({status: true});
+    }
+  });
+});
+
+router.delete('/:project_name', function(req, res, next) {
+  Project.remove({name: req.params.project_name}, function(err) {
+      if (err) {
+          res.json({status: false});
+      } else {
+          res.json({status: true});
+      }
+  });
+});
+
 
 module.exports = router;
