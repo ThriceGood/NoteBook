@@ -67,8 +67,7 @@ router.put('/', function(req, res, next) {
   if (!project.name) {
     res.json({status: false});
   }
-  Project.update({name: req.body.name}, {$set: project}, function(err, project){
-    console.log(project);
+  Project.update({name: req.body.original_name}, {$set: project}, function(err, project){
     if (err || !project) {
       res.json({status: false});
     } else {

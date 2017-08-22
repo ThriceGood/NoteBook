@@ -131,12 +131,15 @@
     }
 
     edit_project_save_click = function(event){
-      var project_name = $(event.target).parents('ul').children('li')[0].firstChild.value;
+      var original_project_name = $(event.target).parents('.panel')[0].childNodes[1].firstElementChild.innerHTML;
+      var new_project_name = $(event.target).parents('ul').children('li')[0].firstChild.value;
       var project_description = $(event.target).parents('ul').children('li')[1].firstChild.value;
       project_data = {
-        name: project_name,
+        original_name: original_project_name,
+        name: new_project_name,
         description: project_description
       };
+      console.log(project_data);
       $.ajax({
         url: "/",
         type: 'PUT',
@@ -144,7 +147,7 @@
         success: function(response) {
           console.log(response);
           if (response.status == true) {
-            $(event.target).parents('.panel')[0].childNodes[1].firstElementChild.innerHTML = project_name;
+            $(event.target).parents('.panel')[0].childNodes[1].firstElementChild.innerHTML = new_project_name;
             $(event.target).parents('.panel')[0].children[1].children[0].children[0].innerHTML = project_description;
           } else {
             // there was an issue
