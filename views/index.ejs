@@ -1,15 +1,14 @@
 
 <div class="grid_wrapper">
 
-  <% for (i in data.projects) { %>
-  <% project = data.projects[i]; %>
+  <% for (i in data.projects) { project = data.projects[i]; %>
     <div class="panel panel-<%= project.colour %> project_panel" id="project_panel_<%= i %>">
       <div class="panel-heading">
-        <h3 class="panel-title" id="project_<%= i %>_title"><%= project.name %></h3>
+        <h3 class="panel-title"><%= project.name %></h3>
       </div>
       <div class="panel-body">
         <div class="project_panel_description_div">
-          <p id="project_<%= i %>_description_text"><%= project.description %></p>
+          <p><%= project.description %></p>
         </div>
         <div class="project_panel_button_div">
           <div class="btn-group project_panel_edit_button">
@@ -18,9 +17,9 @@
                 Edit
               </a>
               <ul class="dropdown-menu">
-                <li><input id="project_<%= i %>_name_input" class="form-control" type="text" name="name" value="<%= project.name %>" placeholder="name"></li>
-                <li><textarea id="project_<%= i %>_description_input" class="form-control" type="text" name="description" placeholder="description"><%= project.description %></textarea></li>
-                <li><div><button id="project_<%= i %>_save" class="btn btn-default btn-sm project_save">Save</button><button id="project_<%= i %>_delete" class="btn btn-warning btn-sm project_delete">Delete</button><div></li>
+                <li><input class="form-control" type="text" name="name" value="<%= project.name %>" placeholder="name"></li>
+                <li><textarea class="form-control" type="text" name="description" placeholder="description"><%= project.description %></textarea></li>
+                <li><div><button class="btn btn-default btn-sm project_save">Save</button><button class="btn btn-warning btn-sm project_delete">Delete</button><div></li>
               </ul>
             </div>
           </div>
@@ -66,7 +65,7 @@
       });
     }
 
-    $('.add_project_div').click(add_project_click);    
+    $('.add_project_div').click(add_project_click);
 
     add_project_save = function(event) {
       $('.add_project_div').fadeOut(function() {
@@ -112,7 +111,8 @@
           </div>
         `;
         $('.add_project_div').before(project_panel);
-        $('.project_delete').click(project_delete_click);    
+        $('.project_save').click(edit_project_save_click);
+        $('.project_delete').click(edit_project_delete_click);
     }
 
     add_project_cancel = function(event) {
@@ -125,27 +125,27 @@
       });
     }
 
-    $('.project_save').click(function(event){
-      var project_number = event.target.id.split('_')[1];
-      var project_name = $('#project_'+ project_number + '_name_input').val();
-      var project_description = $('#project_'+ project_number + '_description_input').val();
+    edit_project_save_click = function(event){
+      var project_name = $(event.target).parents('ul').children('li')[0].firstChild.value;
+      var project_description = $(event.target).parents('ul').children('li')[1].firstChild.value;
       // ajax to save content
       // if content saves then update element
-      $('#project_'+ project_number +'_title').html(project_name);
-      $('#project_'+ project_number +'_description_text').html(project_description);
-    });    
+      $(event.target).parents('.panel')[0].childNodes[1].firstElementChild.innerHTML = project_name;
+      $(event.target).parents('.panel')[0].children[1].children[0].children[0].innerHTML = project_description;
+    }
 
-    project_delete_click = function(event){
+    edit_project_delete_click = function(event){
       if (!confirm('Are you sure you want to delete this project and all its contents?')) return
       var project_name = $(event.target).parents('ul').children('li')[0].firstChild.attributes.value.value;
-      console.log(project_name);
-      var panel_id = $(event.target).parents('.panel')[0].attributes.id.value
+      var panel_id = $(event.target).parents('.panel')[0].attributes.id.value;
+      // delete with ajax
       $('#' + panel_id).fadeOut(
         $('#' + panel_id).remove()
       );
     }
 
-    $('.project_delete').click(project_delete_click);    
+    $('.project_save').click(edit_project_save_click);
+    $('.project_delete').click(edit_project_delete_click);
 
   })
 
