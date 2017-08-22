@@ -1,10 +1,12 @@
 var express = require('express');
 var router = express.Router();
 
+var Project = require('../models/project.model');
+
 // GET home page
 router.get('/', function(req, res, next) {
 
-  projects = [
+  test_projects = [
     {
       name: 'My Project 1',
       description: 'Project Description Project Description Project Description',
@@ -32,13 +34,25 @@ router.get('/', function(req, res, next) {
     },
   ]
 
-  res.render('layout', {view: 'index', view_data: {projects: projects}});
+  Project.find({}, function (err, projects) {
+    res.render('layout', {view: 'projects', view_data: {projects: projects}});
+  });
+
 });
 
-// GET project page
-router.get('/project/:name', function(req, res, next) {
-  var project_name = req.params.name.replace(/-/g, ' ');
-  res.render('layout', {view: 'project', view_data: {hello: 'world'}});
+router.post('/', function(req, res, next) {
+  var project = new Project({
+    name: req.body.name,
+    description: req.body.description,
+    colour: req.body.colour
+  });
+  project.save(function(err, project) {
+      if (err) {
+        res.json({status: false});
+      } else {
+        res.json({status: true});
+      }
+  })
 });
 
 module.exports = router;

@@ -40,7 +40,7 @@
 
     $('.panel-heading').click(function(event) {
       child = event.target.childNodes[0];
-      window.location.href = '/project/' + child.data.replace(/ /g, '-');
+      window.location.href = '/notes/' + child.data.replace(/ /g, '-');
     });
 
     add_project_click = function(event) {
@@ -77,9 +77,14 @@
         $('.add_project_div').html('<h1>+</h1>');
         $('.add_project_div').click(add_project_click);
         $('.add_project_div').fadeIn();
-        // call ajax save
-        // if successfull output project panel
-        build_project_panel(project_data);
+        $.post( "/", project_data, function(response) {
+          // console.log(response);
+          if (response.status == true) {
+            build_project_panel(project_data);
+          } else {
+            // there was an issue
+          }
+        });
       });
     }
 

@@ -6,21 +6,24 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
+var config = require('./config/config');
+
 // database
-// mongoose.connect(config.database);
-// let db = mongoose.connection;
+mongoose.connect(config.database);
+let db = mongoose.connection;
 
-// // Check connection
-// db.once('open', function(){
-//   console.log('connected to MongoDB');
-// });
+// Check connection
+db.once('open', function(){
+  console.log('connected to MongoDB');
+});
 
-// // Check for DB errors
-// db.on('error', function(err){
-//   console.log(err);
-// });
+// Check for DB errors
+db.on('error', function(err){
+  console.log(err);
+});
 
-var index = require('./routes/index');
+var projects = require('./routes/projects');
+var notes = require('./routes/notes');
 
 var app = express();
 
@@ -36,7 +39,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
+app.use('/', projects);
+app.use('/notes', notes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
