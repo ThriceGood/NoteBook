@@ -7,6 +7,12 @@ body {
   padding-top: 50px;
 }
 
+.no_radius {
+  border-radius: 0;
+}
+
+/* PROJECTS */
+
 .grid_wrapper {
   display: grid;
   grid-template-columns:repeat(4, 1fr);
@@ -122,3 +128,6 @@ body {
 .add_project_div:hover {
   opacity: 0.8;
 }
+
+
+/* NOTES */

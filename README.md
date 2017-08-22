@@ -18,3 +18,6 @@ documentation link
 file upload
 
 deadline
+
+
+title, type, content, steps, tag, file

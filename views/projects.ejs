@@ -53,6 +53,8 @@
                 <option value="info">Blue</option>
                 <option value="success">Green</option>
                 <option value="danger">Pink</option>
+                <option value="warning">Red</option>
+                <option value="primary">Yellow</option>
               </select>
               <button class="btn btn-default btn-md add_project_save_btn">Save</button>
               <button class="btn btn-warning btn-md add_project_cancel_btn">Cancel</button>
@@ -78,7 +80,6 @@
         $('.add_project_div').click(add_project_click);
         $('.add_project_div').fadeIn();
         $.post( "/", project_data, function(response) {
-          // console.log(response);
           if (response.status == true) {
             build_project_panel(project_data);
           } else {
@@ -139,13 +140,11 @@
         name: new_project_name,
         description: project_description
       };
-      console.log(project_data);
       $.ajax({
         url: "/",
         type: 'PUT',
         data: project_data,
         success: function(response) {
-          console.log(response);
           if (response.status == true) {
             $(event.target).parents('.panel')[0].childNodes[1].firstElementChild.innerHTML = new_project_name;
             $(event.target).parents('.panel')[0].children[1].children[0].children[0].innerHTML = project_description;
