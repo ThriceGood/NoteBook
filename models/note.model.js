@@ -9,14 +9,13 @@ var NoteSchema = new Schema({
     },
     type: {
         type: String,
-        required: true,
+        required: true
     },
     tag: {
-        type: String,
+        type: String
     },
     content: {
-        type: String,
-        required: true,
+        type: String
     },
     _creator : {
         type: Schema.Types.ObjectId,

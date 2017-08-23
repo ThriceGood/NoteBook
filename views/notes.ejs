@@ -44,16 +44,24 @@
       <th>Tag</th>
       <th>Steps</th>
       <th>File</th>
+      <th>Date</th>
     </thead>
     <tbody id="note_table_body">
       <% for (i in notes) { note = notes[i]; %>
         <tr>
-          <td><a>View</a></td>
-          <td><%= note.title %></td>
-          <td><%= note.type %></td>
-          <td><%= note.tag %></td>
-          <td>none</td>
-          <td>none</td>
+          <td><a href="note/<%= note._id %>">View</a>&nbsp;|&nbsp;<a href="#" onclick="show_glimps('<%= note._id %>')">Glimpse</a></td>
+          <td><%= note.title; %></td>
+          <td><%= note.type; %></td>
+          <td><%= note.tag; %></td>
+          <td></td>
+          <td></td>
+          <td>
+            <%
+              var date_split = note.createdAt.toISOString().split('T');  
+              var date_formated = date_split[0] + ' ' + date_split[1].split('.')[0]; 
+            %>
+            <%= date_formated %>
+          </td>
         </tr>
       <% } %>
     </tbody>
@@ -88,11 +96,11 @@
             <div class="col-sm-6">
               <select class="form-control no_radius" id="tag_input">
                 <option value="">Select Tag</option>
-                <option value="">Frontend</option>
-                <option value="">Backend</option>
-                <option value="">Javascript</option>
-                <option value="">Ruby</option>
-                <option value="">Python</option>
+                <option value="frontend">Frontend</option>
+                <option value="backend">Backend</option>
+                <option value="javascript">Javascript</option>
+                <option value="ruby">Ruby</option>
+                <option value="python">Python</option>
               </select>
             </div>
           </div>
@@ -111,8 +119,22 @@
 
 <script>
 
+  notes = [
+    //<% for (i in notes) { %>
+      {
+        id: '<%- notes[i]._id; %>',
+        title: '<%- notes[i].title; %>',
+        type: '<%- notes[i].type; %>',
+        tag: '<%- notes[i].tag; %>',
+        content: '<%- notes[i].content; %>',
+      },
+    //<% } %>
+  ];
+
   $(document).ready(function(){
-      $('.project_table').DataTable();
+      datatable = $('.project_table').DataTable({
+        order: [[6, "desc"]]
+      });
       $('#summernote').summernote({
         height: 400
       });
@@ -126,6 +148,7 @@
       tag: $('#tag_input').val(),
       content: $('#summernote').summernote('code')
     }
+    // validate first and alert user if issues
     $.post('/notes', note_data, function(response) {
       if (response.status == true) {
         $('#create_note_modal').modal('toggle');
@@ -135,11 +158,35 @@
           $('#type_input').val('');
           $('#tag_input').val('');
         }, 2000);
-        // refresh table
+        add_table_row(response.note);
       } else {
         // there was an issue
       }
     });
+  }
+
+  function add_table_row(note) {
+    var table_body = $('#note_table_body');
+    var date_split = note.createdAt.split('T');  
+    var date_formated = date_split[0] + ' ' + date_split[1].split('.')[0]; 
+    datatable.row.add([
+      '<a href="'+ note._id +'">View</a>',
+      note.title,
+      note.type,
+      note.tag,
+      '',
+      '',
+      date_formated
+    ]);
+    datatable.order([6, 'desc']).draw();
+  }
+
+  function show_glimps(note_id) {
+    for (i in notes) {
+      if (note_id == notes[i].id) {
+        // open modal with info        
+      }
+    }
   }
 
 </script>

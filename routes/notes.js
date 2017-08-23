@@ -11,7 +11,7 @@ router.get('/:name', function(req, res, next) {
   Project.findOne({name: project_name}, function(err, project) {
     if (err) console.log(err);
     if (project) {
-      Note.find({_creator: project._id}, function(err, notes) {
+      Note.find({_creator: project._id}, null, {sort: '-createdAt'}, function(err, notes) {
         if (err) console.log(err);
         res.render('layout', {view: 'notes', view_data: {project_id: project._id, notes: notes}});
       });
@@ -38,10 +38,24 @@ router.post('/', function(req, res, next) {
         console.log(err);
         res.json({status: false});
       } else {
-        res.json({status: true});
+        res.json({status: true, note: note});
       }
     });
   }
 });
+
+// get note view
+router.get('/note/:note_id', function(req, res, next) {
+  var note_id = req.params.note_id;
+  if (!note_id) {
+    res.redirect('/');
+  } else {
+    Note.findById(note_id, function(err, note) {
+      if (err) console.log(err);
+      res.render('layout', {view: 'note', view_data: {note: note}});
+    });
+  }
+});
+
 
 module.exports = router;
