@@ -1,7 +1,7 @@
 
 <div class="grid_wrapper">
 
-  <% for (i in data.projects) { project = data.projects[i]; %>
+  <% for (i in projects) { project = projects[i]; %>
     <div class="panel panel-<%= project.colour %> project_panel" id="project_panel_<%= i %>">
       <div class="panel-heading">
         <h3 class="panel-title"><%= project.name %></h3>
