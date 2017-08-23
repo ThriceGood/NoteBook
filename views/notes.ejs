@@ -1,136 +1,174 @@
 
-<table class="table table-striped project_table">
-  <thead>
-    <th></th>
-    <th>Title</th>
-    <th>Type</th>
-    <th>Tag</th>
-    <th>Steps</th>
-    <th>File</th>
-  </thead>
-  <tbody>
-    <tr>
-      <td><button class="btn btn-default btn-sm no_radius">View</button></td>
-      <td>My Note 1</td>
-      <td>text note</td>
-      <td>some tag</td>
-      <td>none</td>
-      <td>none</td>
-    </tr>
-    <tr>
-      <td><button class="btn btn-default btn-sm no_radius">View</button></td>
-      <td>Issue 1</td>
-      <td>issue</td>
-      <td></td>
-      <td>none</td>
-      <td>none</td>
-    </tr>
-    <tr>
-      <td><button class="btn btn-default btn-sm no_radius">View</button></td>
-      <td>link to documentation</td>
-      <td>link</td>
-      <td>docs</td>
-      <td>none</td>
-      <td>none</td>
-    </tr>
-    <tr>
-      <td><button class="btn btn-default btn-sm no_radius">View</button></td>
-      <td>My Note 1</td>
-      <td>text note</td>
-      <td>some tag</td>
-      <td>none</td>
-      <td>none</td>
-    </tr>
-    <tr>
-      <td><button class="btn btn-default btn-sm no_radius">View</button></td>
-      <td>Issue 1</td>
-      <td>issue</td>
-      <td></td>
-      <td>none</td>
-      <td>none</td>
-    </tr>
-    <tr>
-      <td><button class="btn btn-default btn-sm no_radius">View</button></td>
-      <td>link to documentation</td>
-      <td>link</td>
-      <td>docs</td>
-      <td>none</td>
-      <td>none</td>
-    </tr>
-    <tr>
-      <td><button class="btn btn-default btn-sm no_radius">View</button></td>
-      <td>My Note 1</td>
-      <td>text note</td>
-      <td>some tag</td>
-      <td>none</td>
-      <td>none</td>
-    </tr>
-    <tr>
-      <td><button class="btn btn-default btn-sm no_radius">View</button></td>
-      <td>Issue 1</td>
-      <td>issue</td>
-      <td></td>
-      <td>none</td>
-      <td>none</td>
-    </tr>
-    <tr>
-      <td><button class="btn btn-default btn-sm no_radius">View</button></td>
-      <td>link to documentation</td>
-      <td>link</td>
-      <td>docs</td>
-      <td>none</td>
-      <td>none</td>
-    </tr>
-    <tr>
-      <td><button class="btn btn-default btn-sm no_radius">View</button></td>
-      <td>My Note 1</td>
-      <td>text note</td>
-      <td>some tag</td>
-      <td>none</td>
-      <td>none</td>
-    </tr>
-    <tr>
-      <td><button class="btn btn-default btn-sm no_radius">View</button></td>
-      <td>Issue 1</td>
-      <td>issue</td>
-      <td></td>
-      <td>none</td>
-      <td>none</td>
-    </tr>
-    <tr>
-      <td><button class="btn btn-default btn-sm no_radius">View</button></td>
-      <td>link to documentation</td>
-      <td>link</td>
-      <td>docs</td>
-      <td>none</td>
-      <td>none</td>
-    </tr>
-    <tr>
-      <td><button class="btn btn-default btn-sm no_radius">View</button></td>
-      <td>My Note 1</td>
-      <td>text note</td>
-      <td>some tag</td>
-      <td>none</td>
-      <td>none</td>
-    </tr>
-    <tr>
-      <td><button class="btn btn-default btn-sm no_radius">View</button></td>
-      <td>Issue 1</td>
-      <td>issue</td>
-      <td></td>
-      <td>none</td>
-      <td>none</td>
-    </tr>
-    <tr>
-      <td><button class="btn btn-default btn-sm no_radius">View</button></td>
-      <td>link to documentation</td>
-      <td>link</td>
-      <td>docs</td>
-      <td>none</td>
-      <td>none</td>
-    </tr>
-  </tbody>
-</table>
+<div>
+  <div id="add_note_div">
+    <button class="btn btn-success btn-md no_radius" id="add_note_button">Add New Note</button>
+  </div>
+  <div id="note_filter_div">
+    <div class="row">
+      <div class="col-lg-3">
+        <select id="type_filter" class="no_radius form-control">
+          <option value="">All</option>
+          <option value="">Text</option>
+          <option value="">Link</option>
+          <option value="">Issue</option>
+          <option value="">Task</option>
+        </select>
+      </div>
+      <div class="col-lg-3">
+        <input type="text" placeholder="enter type" class="no_radius form-control">
+      </div>
+      <div class="col-lg-3">
+        <select id="tag_filter" class="no_radius form-control">
+          <option value="">All</option>
+          <option value="">Frontend</option>
+          <option value="">Backend</option>
+          <option value="">Javascript</option>
+          <option value="">Ruby</option>
+          <option value="">Python</option>
+        </select>
+      </div>
+      <div class="col-lg-3">
+        <input type="text" placeholder="enter tag" class="no_radius form-control">
+      </div>
+    </div>
+  </div>
+</div>
+<div class="clearfix"></div>
+<hr id="filter_seperator">
+<div id="note_table_div">
+  <table class="table table-striped project_table">
+    <thead>
+      <th></th>
+      <th>Title</th>
+      <th>Type</th>
+      <th>Tag</th>
+      <th>Steps</th>
+      <th>File</th>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a>View</a></td>
+        <td>My Note 1</td>
+        <td>text note</td>
+        <td>some tag</td>
+        <td>none</td>
+        <td>none</td>
+      </tr>
+      <tr>
+        <td><a>View</a></td>
+        <td>Issue 1</td>
+        <td>issue</td>
+        <td></td>
+        <td>none</td>
+        <td>none</td>
+      </tr>
+      <tr>
+        <td><a>View</a></td>
+        <td>link to documentation</td>
+        <td>link</td>
+        <td>docs</td>
+        <td>none</td>
+        <td>none</td>
+      </tr>
+      <tr>
+        <td><a>View</a></td>
+        <td>My Note 1</td>
+        <td>text note</td>
+        <td>some tag</td>
+        <td>none</td>
+        <td>none</td>
+      </tr>
+      <tr>
+        <td><a>View</a></td>
+        <td>Issue 1</td>
+        <td>issue</td>
+        <td></td>
+        <td>none</td>
+        <td>none</td>
+      </tr>
+      <tr>
+        <td><a>View</a></td>
+        <td>link to documentation</td>
+        <td>link</td>
+        <td>docs</td>
+        <td>none</td>
+        <td>none</td>
+      </tr>
+      <tr>
+        <td><a>View</a></td>
+        <td>My Note 1</td>
+        <td>text note</td>
+        <td>some tag</td>
+        <td>none</td>
+        <td>none</td>
+      </tr>
+      <tr>
+        <td><a>View</a></td>
+        <td>Issue 1</td>
+        <td>issue</td>
+        <td></td>
+        <td>none</td>
+        <td>none</td>
+      </tr>
+      <tr>
+        <td><a>View</a></td>
+        <td>link to documentation</td>
+        <td>link</td>
+        <td>docs</td>
+        <td>none</td>
+        <td>none</td>
+      </tr>
+      <tr>
+        <td><a>View</a></td>
+        <td>My Note 1</td>
+        <td>text note</td>
+        <td>some tag</td>
+        <td>none</td>
+        <td>none</td>
+      </tr>
+      <tr>
+        <td><a>View</a></td>
+        <td>Issue 1</td>
+        <td>issue</td>
+        <td></td>
+        <td>none</td>
+        <td>none</td>
+      </tr>
+      <tr>
+        <td><a>View</a></td>
+        <td>link to documentation</td>
+        <td>link</td>
+        <td>docs</td>
+        <td>none</td>
+        <td>none</td>
+      </tr>
+      <tr>
+        <td><a>View</a></td>
+        <td>My Note 1</td>
+        <td>text note</td>
+        <td>some tag</td>
+        <td>none</td>
+        <td>none</td>
+      </tr>
+      <tr>
+        <td><a>View</a></td>
+        <td>Issue 1</td>
+        <td>issue</td>
+        <td></td>
+        <td>none</td>
+        <td>none</td>
+      </tr>
+      <tr>
+        <td><a>View</a></td>
+        <td>link to documentation</td>
+        <td>link</td>
+        <td>docs</td>
+        <td>none</td>
+        <td>none</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
 <script>
   $(document).ready(function(){

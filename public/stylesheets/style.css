@@ -4,7 +4,7 @@ body {
 
 .container {
   width: 90%;
-  padding-top: 50px;
+  /*padding-top: 50px;*/
 }
 
 .no_radius {
@@ -14,6 +14,7 @@ body {
 /* PROJECTS */
 
 .grid_wrapper {
+  margin-top: 50px;
   display: grid;
   grid-template-columns:repeat(4, 1fr);
   grid-gap: 20px;
@@ -131,3 +132,24 @@ body {
 
 
 /* NOTES */
+
+#note_filter_div {
+  margin-top: 30px;
+  margin-bottom: 5px;
+  width: 50%;
+  float: right;
+}
+
+#add_note_div {
+  margin-top: 30px;
+  float: left;
+}
+
+#filter_seperator {
+  opacity: 0.3;
+  margin-bottom: 30px;
+}
+
+.filter_buttons {
+  margin-bottom: 3px;
+}

@@ -38,10 +38,12 @@
 
   $(function() {
 
-    $('.panel-heading').click(function(event) {
+    go_to_notes = function(event) {
       child = event.target.childNodes[0];
       window.location.href = '/notes/' + child.data.replace(/ /g, '-');
-    });
+    };
+
+    $('.panel-heading').click(go_to_notes);
 
     add_project_click = function(event) {
       $('.add_project_div').fadeOut(function() {
@@ -117,6 +119,7 @@
           </div>
         `;
         $('.add_project_div').before(project_panel);
+        $('.panel-heading').click(go_to_notes);
         $('.project_save').click(edit_project_save_click);
         $('.project_delete').click(edit_project_delete_click);
     }
