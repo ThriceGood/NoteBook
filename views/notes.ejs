@@ -124,7 +124,7 @@
       title: $('#title_input').val(),
       type: $('#type_input').val(),
       tag: $('#tag_input').val(),
-      content: $('#content_input').val()
+      content: $('#summernote').summernote('code')
     }
     $.post('/notes', note_data, function(response) {
       if (response.status == true) {
