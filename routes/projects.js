@@ -21,7 +21,7 @@ router.post('/', function(req, res, next) {
     res.json({status: false});
   }
   project.save(function(err, project) {
-      if (err || !project) {
+      if (err) {
         res.json({status: false});
       } else {
         res.json({status: true});

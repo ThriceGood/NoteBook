@@ -7,6 +7,17 @@ var NoteSchema = new Schema({
         required: true,
         unique: true
     },
+    type: {
+        type: String,
+        required: true,
+    },
+    tag: {
+        type: String,
+    },
+    content: {
+        type: String,
+        required: true,
+    },
     _creator : {
         type: Schema.Types.ObjectId,
         ref: 'Project'
