@@ -1,7 +1,4 @@
 
-<!-- project id -->
-<div class="hidden"><%= project_id %></div>
-
 <div>
   <div id="add_note_div">
     <button class="btn btn-success btn-md no_radius" id="add_note_button" data-toggle="modal" data-target="#create_note_modal">Add New Note</button>
@@ -65,8 +62,8 @@
 
 <!-- create note modal -->
 <div class="modal fade" id="create_note_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content no_radius create_note_modal">
+  <div class="modal-dialog create_note_modal" role="document">
+    <div class="modal-content no_radius ">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="myModalLabel">Add New Note</h4>
@@ -74,15 +71,13 @@
       <div class="modal-body">
         <form class="form-horizontal">
           <div class="form-group">
-            <!-- <label for="title" class="col-sm-2 control-label">Title</label> -->
             <div class="col-sm-12">
-              <input type="text" class="form-control no_radius" id="title_input" name="title" placeholder="Title">
+              <input type="text" class="form-control no_radius" id="title_input" placeholder="Title">
             </div>
           </div>
           <div class="form-group">
-            <!-- <label for="type" class="col-sm-2 control-label">Type</label> -->
             <div class="col-sm-6">
-              <select class="form-control no_radius" id="type_input" name="type">
+              <select class="form-control no_radius" id="type_input">
                 <option value="">Select Type</option>
                 <option value="text">Text</option>
                 <option value="link">Link</option>
@@ -90,9 +85,8 @@
                 <option value="task">Task</option>
               </select>
             </div>
-            <!-- <label for="tag" class="col-sm-2 control-label">Tag</label> -->
             <div class="col-sm-6">
-              <select class="form-control no_radius" id="tag_input" name="tag">
+              <select class="form-control no_radius" id="tag_input">
                 <option value="">Select Tag</option>
                 <option value="">Frontend</option>
                 <option value="">Backend</option>
@@ -102,10 +96,8 @@
               </select>
             </div>
           </div>
-          <div class="form-group">
-            <div class="col-sm-12">
-              <textarea class="form-control no_radius" name="content" id="content_input" rows="8" placeholder="Note Content..."></textarea>
-            </div>
+          <div class="form-group" id="summernote_wrapper">
+            <div class="col-sm-12" id="summernote"></div>
           </div>
         </form>
       </div>
@@ -121,18 +113,28 @@
 
   $(document).ready(function(){
       $('.project_table').DataTable();
+      $('#summernote').summernote({
+        height: 400
+      });
   });
 
   function save_note(project_id) {
     var note_data = {
+      project_id: project_id,
       title: $('#title_input').val(),
       type: $('#type_input').val(),
       tag: $('#tag_input').val(),
       content: $('#content_input').val()
     }
     $.post('/notes', note_data, function(response) {
-      // console.log(response);
       if (response.status == true) {
+        $('#create_note_modal').modal('toggle');
+        setTimeout(function() {
+          $('#title_input').val('');
+          $('#content_input').val('');
+          $('#type_input').val('');
+          $('#tag_input').val('');
+        }, 2000);
         // refresh table
       } else {
         // there was an issue

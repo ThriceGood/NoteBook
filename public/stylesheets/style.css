@@ -153,3 +153,17 @@ body {
 .filter_buttons {
   margin-bottom: 3px;
 }
+
+.create_note_modal {
+  width: 1000px;
+  margin: 60px auto;
+}
+
+#summernote_wrapper {
+  margin-left: 1px;
+  margin-right: 1px;
+}
+
+.note-editor {
+  margin-bottom: 0;
+}

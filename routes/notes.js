@@ -11,18 +11,13 @@ router.get('/:name', function(req, res, next) {
   Project.findOne({name: project_name}, function(err, project) {
     if (err) console.log(err);
     if (project) {
-      project_id = project._id;
-      notes = [
-        {tite: 'note 1', type: 'text', tag: 'a tag'},
-        {tite: 'note 2', type: 'issue', tag: 'a tag'},
-        {tite: 'note 3', type: 'link', tag: 'a tag'},
-        {tite: 'note 4', type: 'task', tag: 'a tag'},
-      ];
+      Note.find({_creator: project._id}, function(err, notes) {
+        if (err) console.log(err);
+        res.render('layout', {view: 'notes', view_data: {project_id: project._id, notes: notes}});
+      });
     } else {
-      project_id = null;
-      notes = [];
+      res.redirect('/');
     }
-    res.render('layout', {view: 'notes', view_data: {project_id: project_id, notes: notes}});
   });
 });
 
@@ -32,18 +27,21 @@ router.post('/', function(req, res, next) {
     title: req.body.title,
     type: req.body.type,
     tag: req.body.tag,
-    content: req.body.content
+    content: req.body.content,
+    _creator: req.body.project_id
   });
-  if (!note.title || !note.type || !note.content) {
+  if (!note.title || !note.type || !note.content || !note._creator) {
     res.json({status: false});
+  } else {
+    note.save(function(err, note) {
+      if (err) {
+        console.log(err);
+        res.json({status: false});
+      } else {
+        res.json({status: true});
+      }
+    });
   }
-  note.save(function(err, note) {
-    if (err) {
-      res.json({status: false});
-    } else {
-      res.json({status: true});
-    }
-  });
 });
 
 module.exports = router;
