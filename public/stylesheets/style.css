@@ -167,3 +167,8 @@ body {
 .note-editor {
   margin-bottom: 0;
 }
+
+.glimpse_modal {
+  width: 1000px;
+  margin: 60px auto;
+}

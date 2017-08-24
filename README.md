@@ -19,5 +19,7 @@ file upload
 
 deadline
 
+code snippet
+
 
 title, type, content, steps, tag, file

@@ -44,6 +44,17 @@ router.post('/', function(req, res, next) {
   }
 });
 
+// delete note
+router.delete('/:note_id', function(req, res, next) {
+  Note.remove({_id: req.params.note_id}, function(err) {
+    if (err) {
+        res.json({status: false});
+    } else {
+        res.json({status: true});
+    }
+  });
+});
+
 // get note view
 router.get('/note/:note_id', function(req, res, next) {
   var note_id = req.params.note_id;
