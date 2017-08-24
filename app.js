@@ -42,23 +42,22 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // before request hook for theme
-var cached_theme = '';
 app.use('/*', function(req, res, next) {
-  if (!cached_theme) {
+  if (!settings.theme) {
     fs.readFile('./config/user_settings', 'utf8', function (err, data) {
       if (err) throw err;
       var s = data.split('\n');
       for (i in s) { setting = s[i].split(':');
         if (setting[0] == 'theme') {
-          cached_theme = setting[1];
+          settings.theme = setting[1];
           break;
         }
       }
-      app.locals.theme = cached_theme;
+      app.locals.theme = settings.theme;
       next();
     });
   } else {
-    app.locals.theme = cached_theme;
+    app.locals.theme = settings.theme;
     next();
   }
 });
