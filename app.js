@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var fs = require('fs');
 
 var config = require('./config/config');
 
@@ -24,6 +25,7 @@ db.on('error', function(err){
 
 var projects = require('./routes/projects');
 var notes = require('./routes/notes');
+var settings = require('./routes/settings');
 
 var app = express();
 
@@ -39,8 +41,31 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// before request hook for theme
+var cached_theme = '';
+app.use('/*', function(req, res, next) {
+  if (!cached_theme) {
+    fs.readFile('./config/user_settings', 'utf8', function (err, data) {
+      if (err) throw err;
+      var s = data.split('\n');
+      for (i in s) { setting = s[i].split(':');
+        if (setting[0] == 'theme') {
+          cached_theme = setting[1];
+          break;
+        }
+      }
+      app.locals.theme = cached_theme;
+      next();
+    });
+  } else {
+    app.locals.theme = cached_theme;
+    next();
+  }
+});
+
 app.use('/', projects);
 app.use('/notes', notes);
+app.use('/settings', settings);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
