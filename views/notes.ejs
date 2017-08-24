@@ -49,7 +49,7 @@
     <tbody id="note_table_body">
       <% for (i in notes) { note = notes[i]; %>
         <tr>
-          <td><a href="note/<%= note._id %>">View</a>&nbsp;|&nbsp;<a href="#" onclick="show_glimps('<%= note._id %>')">Glimpse</a></td>
+          <td><a href="note/<%= note._id %>">View</a>&nbsp;|&nbsp;<a href="#" onclick="show_glimpse('<%= note._id %>')">Glimpse</a></td>
           <td><%= note.title; %></td>
           <td><%= note.type; %></td>
           <td><%= note.tag; %></td>
@@ -170,6 +170,7 @@
     // validate first and alert user if issues
     $.post('/notes', note_data, function(response) {
       if (response.status == true) {
+        var note = response.note;
         $('#create_note_modal').modal('toggle');
         setTimeout(function() {
           $('#title_input').val('');
@@ -177,7 +178,14 @@
           $('#type_input').val('');
           $('#tag_input').val('');
         }, 2000);
-        add_table_row(response.note);
+        notes.push({
+          id: note._id,
+          title: note.title,
+          type: note.type,
+          tag: note.tag,
+          content: `` + note.content + ``,
+        });
+        add_table_row(note);
       } else {
         // there was an issue
       }
@@ -189,7 +197,7 @@
     var date_split = note.createdAt.split('T');
     var date_formated = date_split[0] + ' ' + date_split[1].split('.')[0];
     datatable.row.add([
-      '<a href="note/'+ note._id +'">View</a>&nbsp;|&nbsp;<a href="#" onclick="show_glimps(`'+ note._id +'`)">Glimpse</a>',
+      '<a href="note/'+ note._id +'">View</a>&nbsp;|&nbsp;<a href="#" onclick="show_glimpse(`'+ note._id +'`)">Glimpse</a>',
       note.title,
       note.type,
       note.tag,
@@ -200,7 +208,7 @@
     datatable.order([6, 'desc']).draw();
   }
 
-  function show_glimps(note_id) {
+  function show_glimpse(note_id) {
     for (i in notes) {
       if (note_id == notes[i].id) {
         $('#glimpse_content').html('');
