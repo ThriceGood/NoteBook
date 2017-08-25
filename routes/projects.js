@@ -24,7 +24,7 @@ router.post('/', function(req, res, next) {
       if (err) {
         res.json({status: false});
       } else {
-        res.json({status: true});
+        res.json({status: true, project: project});
       }
   })
 });

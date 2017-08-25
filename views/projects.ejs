@@ -84,7 +84,7 @@
         $('.add_project_div').fadeIn();
         $.post( "/", project_data, function(response) {
           if (response.status == true) {
-            build_project_panel(project_data);
+            build_project_panel(response.project);
           } else {
             // there was an issue
           }
@@ -92,15 +92,15 @@
       });
     }
 
-    build_project_panel = function(data) {
+    build_project_panel = function(project) {
       project_panel = `
-          <div class="panel panel-`+ data.colour +` project_panel" id="`+ data.name.replace(/ /g, '_') +`">
+          <div class="panel panel-`+ project.colour +` project_panel" id="`+ project.name.replace(/ /g, '_') +`">
             <div class="panel-heading">
-              <h3 class="panel-title">`+ data.name +`</h3>
+              <h3 class="panel-title" id="`+ project._id +`">`+ project.name +`</h3>
             </div>
             <div class="panel-body">
               <div class="project_panel_description_div">
-                <p>`+ data.description +`</p>
+                <p>`+ project.description +`</p>
               </div>
               <div class="project_panel_button_div">
                 <div class="btn-group project_panel_edit_button">
@@ -109,8 +109,8 @@
                       Edit
                     </a>
                     <ul class="dropdown-menu">
-                      <li><input class="form-control" type="text" name="name" value="`+ data.name +`" placeholder="name"></li>
-                      <li><textarea class="form-control" type="text" name="description" placeholder="description">`+ data.description +`</textarea></li>
+                      <li><input class="form-control" type="text" name="name" value="`+ project.name +`" placeholder="name"></li>
+                      <li><textarea class="form-control" type="text" name="description" placeholder="description">`+ project.description +`</textarea></li>
                       <li><div><button class="btn btn-default btn-sm project_save">Save</button><button class="btn btn-warning btn-sm project_delete">Delete</button><div></li>
                     </ul>
                   </div>
