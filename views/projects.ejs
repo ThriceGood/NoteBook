@@ -4,8 +4,8 @@
 
   <% for (i in projects) { project = projects[i]; %>
     <div class="panel panel-<%= project.colour %> project_panel" id="project_panel_<%= i %>">
-      <div class="panel-heading">
-        <h3 class="panel-title"><%= project.name %></h3>
+      <div class="panel-heading project_panel_heading">
+        <h3 class="panel-title" id="<%= project._id %>"><%= project.name %></h3>
       </div>
       <div class="panel-body">
         <div class="project_panel_description_div">
@@ -40,8 +40,8 @@
   $(function() {
 
     go_to_notes = function(event) {
-      child = event.target.childNodes[0];
-      window.location.href = '/notes/' + child.data.replace(/ /g, '-');
+      // get the project id from the project header id
+      window.location.href = '/notes/' + event.target.id;
     };
 
     $('.panel-heading').click(go_to_notes);

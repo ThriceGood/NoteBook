@@ -6,29 +6,26 @@
   <div id="note_filter_div">
     <div class="row">
       <div class="col-lg-3">
-        <select id="type_filter" class="no_radius form-control">
+        <select id="type_filter" class="no_radius form-control type_select">
           <option value="">All</option>
-          <option value="">Text</option>
-          <option value="">Link</option>
-          <option value="">Issue</option>
-          <option value="">Task</option>
+          <% for (i in types) { %>
+            <<option value="<%= types[i].name %>"><%= types[i].name %></option>
+          <% } %>
         </select>
       </div>
       <div class="col-lg-3">
-        <input type="text" placeholder="enter type" class="no_radius form-control">
+        <input type="text" placeholder="enter type" id="new_type_input" class="no_radius form-control">
       </div>
       <div class="col-lg-3">
-        <select id="tag_filter" class="no_radius form-control">
+        <select id="tag_filter" class="no_radius form-control tag_select">
           <option value="">All</option>
-          <option value="">Frontend</option>
-          <option value="">Backend</option>
-          <option value="">Javascript</option>
-          <option value="">Ruby</option>
-          <option value="">Python</option>
+          <% for (i in tags) { %>
+            <<option value="<%= tags[i].name %>"><%= tags[i].name %></option>
+          <% } %>
         </select>
       </div>
       <div class="col-lg-3">
-        <input type="text" placeholder="enter tag" class="no_radius form-control">
+        <input type="text" placeholder="enter tag" id="new_tag_input" class="no_radius form-control">
       </div>
     </div>
   </div>
@@ -85,22 +82,19 @@
           </div>
           <div class="form-group">
             <div class="col-sm-6">
-              <select class="form-control no_radius" id="type_input">
+              <select class="form-control no_radius type_select" id="type_input">
                 <option value="">Select Type</option>
-                <option value="text">Text</option>
-                <option value="link">Link</option>
-                <option value="issue">Issue</option>
-                <option value="task">Task</option>
+                <% for (i in types) { %>
+                  <<option value="<%= types[i].name %>"><%= types[i].name %></option>
+                <% } %>
               </select>
             </div>
             <div class="col-sm-6">
-              <select class="form-control no_radius" id="tag_input">
+              <select class="form-control no_radius tag_select" id="tag_input">
                 <option value="">None</option>
-                <option value="frontend">Frontend</option>
-                <option value="backend">Backend</option>
-                <option value="javascript">Javascript</option>
-                <option value="ruby">Ruby</option>
-                <option value="python">Python</option>
+                <% for (i in tags) { %>
+                  <<option value="<%= tags[i].name %>"><%= tags[i].name %></option>
+                <% } %>
               </select>
             </div>
           </div>
@@ -234,5 +228,37 @@
       });
     }
   }
+
+  $('#new_type_input').keyup(function(event){
+    if(event.keyCode == 13) {
+      var type_value = $("#new_type_input").val();
+      if (type_value) {
+        $.post('/notes/filter_type', {type: 'type', value: type_value}, function(response) {
+          if (response.status == true) {
+            $("#new_type_input").val('');
+            $('.type_select').append('<option value="'+ type_value +'">'+ type_value +'</option>');
+          } else {
+            // there was an issue
+          }
+        });
+      }
+    }
+  });
+
+  $('#new_tag_input').keyup(function(event){
+    if(event.keyCode == 13) {
+      var tag_value = $("#new_tag_input").val();
+      if (tag_value) {
+        $.post('/notes/filter_type', {type: 'tag', value: tag_value}, function(response) {
+          if (response.status == true) {
+            $("#new_tag_input").val('');
+            $('.tag_select').append('<option value="'+ tag_value +'">'+ tag_value +'</option>');
+          } else {
+            // there was an issue
+          }
+        });
+      }
+    }
+  });
 
 </script>

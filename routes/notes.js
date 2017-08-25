@@ -3,21 +3,31 @@ var router = express.Router();
 
 var Project = require('../models/project.model');
 var Note = require('../models/note.model');
+var Filter = require('../models/filter.model');
 
 
 // GET notes page
-router.get('/:name', function(req, res, next) {
-  var project_name = req.params.name.replace(/-/g, ' ');
-  Project.findOne({name: project_name}, function(err, project) {
+router.get('/:project_id', function(req, res, next) {
+  var project_id = req.params.project_id;
+  Note.find({_creator: project_id}, null, {sort: '-createdAt'}, function(err, notes) {
     if (err) console.log(err);
-    if (project) {
-      Note.find({_creator: project._id}, null, {sort: '-createdAt'}, function(err, notes) {
-        if (err) console.log(err);
-        res.render('layout', {view: 'notes', view_data: {project_id: project._id, notes: notes}});
-      });
-    } else {
-      res.redirect('/');
-    }
+    Filter.find({}, function(err, filters) {
+      if (err) console.log(err);
+      var types = [];
+      var tags = [];
+      for (i in filters) {
+        if (filters[i].filter_type == 'type') {
+          types.push(filters[i]);
+        } else {
+          tags.push(filters[i]);
+        }
+      }
+      if (notes) {
+        res.render('layout', {view: 'notes', view_data: {project_id: project_id, notes: notes, types: types, tags: tags}});
+      } else {
+        res.redirect('/');
+      }
+    })
   });
 });
 
@@ -61,9 +71,40 @@ router.get('/note/:note_id', function(req, res, next) {
   if (!note_id) {
     res.redirect('/');
   } else {
-    Note.findById(note_id, function(err, note) {
+    Filter.find({}, function(err, filters) {
       if (err) console.log(err);
-      res.render('layout', {view: 'note', view_data: {note: note}});
+      var types = [];
+      var tags = [];
+      for (i in filters) {
+        if (filters[i].filter_type == 'type') {
+          types.push(filters[i]);
+        } else {
+          tags.push(filters[i]);
+        }
+      }
+      Note.findById(note_id, function(err, note) {
+        if (err) console.log(err);
+        res.render('layout', {view: 'note', view_data: {note: note, types: types, tags: tags}});
+      });
+    });
+  }
+});
+
+// create new filter
+router.post('/filter_type', function(req, res, next) {
+  var filter_type = req.body.type;
+  var filter_value = req.body.value;
+  if (!filter_type || !filter_value) {
+    res.json({status: false});
+  } else {
+    var filter = new Filter({name: filter_value, filter_type: filter_type});
+    filter.save(function(err, filter) {
+      if (err) {
+        console.log(err);
+        res.json({status: false});
+      } else {
+        res.json({status: true});
+      }
     });
   }
 });

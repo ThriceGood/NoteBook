@@ -1,3 +1,55 @@
 
-<%= note %>
-<%- note.content %>
+<div id="note_container">
+  <div id="note_header" class="row">
+    <div class="col-lg-3">
+      <div id="note_title"></div>
+      <input type="text" class="form-control no_radius" id="title_input" placeholder="Title" value="<%= note.title %>">
+    </div>
+    <div class="col-lg-3">
+      <select class="form-control no_radius type_select" id="type_input">
+        <option value="">Select Type</option>
+        <% for (i in types) { %>
+          <% if (types[i].name == note.type) { %>
+            <<option selected="true" value="<%= types[i].name %>"><%= types[i].name %></option>
+          <% } else {%>
+            <<option value="<%= types[i].name %>"><%= types[i].name %></option>
+          <% } %>
+        <% } %>
+      </select>
+    </div>
+    <div class="col-lg-3">
+      <select class="form-control no_radius tag_select" id="tag_input">
+        <option value="">None</option>
+        <% for (i in tags) { %>
+          <% if (tags[i].name == note.tag) { %>
+            <<option selected="true" value="<%= tags[i].name %>"><%= tags[i].name %></option>
+          <% } else {%>
+            <<option value="<%= tags[i].name %>"><%= tags[i].name %></option>
+          <% } %>
+        <% } %>
+      </select>
+    </div>
+    <div class="col-lg-3">
+      <button class="btn btn-success btn-md no_radius" id="save_note_edit_button">Save Edit</button>
+    </div>
+  </div>
+  <div id="note_content">
+    <div id="summernote"><%- note.content %></div>
+  </div>
+  <div id="note_date">
+    <%
+      var date_split = note.updatedAt.toISOString().split('T');
+      var date_formated = date_split[0] + ' ' + date_split[1].split('.')[0];
+    %>
+    <%= date_formated %>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+      $('#summernote').summernote({
+        height: 600,
+      });
+      $('#crumbs').append('<li><a href="/notes/<%= note._creator %>">All Notes</a></li>');
+  });
+</script>
