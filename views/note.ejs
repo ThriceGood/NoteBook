@@ -30,26 +30,64 @@
       </select>
     </div>
     <div class="col-lg-3">
-      <button class="btn btn-success btn-md no_radius" id="save_note_edit_button">Save Edit</button>
+      <button class="btn btn-success btn-md no_radius" id="save_note_edit_button" onclick="save_note()">Save Edit</button>
     </div>
   </div>
   <div id="note_content">
     <div id="summernote"><%- note.content %></div>
   </div>
-  <div id="note_date">
-    <%
-      var date_split = note.updatedAt.toISOString().split('T');
-      var date_formated = date_split[0] + ' ' + date_split[1].split('.')[0];
-    %>
-    <%= date_formated %>
-  </div>
+  <%
+    var date_split = note.updatedAt.toISOString().split('T');
+    var date_formated = date_split[0] + ' ' + date_split[1].split('.')[0];
+  %>
+  <%= date_formated %>
+  <span class="label label-default" id="content_change_alert">content changed</span>
 </div>
 
 <script type="text/javascript">
+
   $(document).ready(function(){
+      $('#content_change_alert').hide();
       $('#summernote').summernote({
         height: 600,
       });
       $('#crumbs').append('<li><a href="/notes/<%= note._creator %>">All Notes</a></li>');
   });
+
+  original_note_content = `<%- note.content; %>`;
+
+  $('#note_content').keyup(function(event){
+    var new_note_content = $('#summernote').summernote('code');
+    if (new_note_content != original_note_content) {
+      // content change
+      $('#content_change_alert').fadeIn();
+    } else {
+      // no content change
+      $('#content_change_alert').fadeOut();
+    }
+  });
+
+  function save_note() {
+    var note_data = {
+      id: '<%= note._id; %>',
+      project_id: '<%= note._creator; %>',
+      title: $('#title_input').val(),
+      type: $('#type_input').val(),
+      tag: $('#tag_input').val(),
+      content: $('#summernote').summernote('code')
+    }
+    $.ajax({
+      url: "/notes",
+      type: 'PUT',
+      data: note_data,
+      success: function(response) {
+        if (response.status == true) {
+          // no issues, give some feedback
+        } else {
+          // there was an issue
+        }
+      },
+    });
+  }
+
 </script>

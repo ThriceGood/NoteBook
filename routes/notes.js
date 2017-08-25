@@ -54,6 +54,28 @@ router.post('/', function(req, res, next) {
   }
 });
 
+router.put('/', function(req, res, next) {
+  var note = {
+    title: req.body.title,
+    type: req.body.type,
+    tag: req.body.tag,
+    content: req.body.content,
+    _creator: req.body.project_id
+  };
+  if (!note.title || !note.type || !note.content) {
+    res.json({status: false});
+  } else {
+    Note.update({_id: req.body.id}, {$set: note}, function(err, note) {
+      if (err) {
+        console.log(err);
+        res.json({status: false});
+      } else {
+        res.json({status: true});
+      }
+    });
+  }
+});
+
 // delete note
 router.delete('/:note_id', function(req, res, next) {
   Note.remove({_id: req.params.note_id}, function(err) {

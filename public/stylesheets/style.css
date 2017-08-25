@@ -197,3 +197,9 @@ body {
   float: right;
   margin-right: 5px;
 }
+
+#content_change_alert {
+  opacity: 0.5;
+  float: right;
+  margin: none;
+}
