@@ -31,6 +31,27 @@ router.get('/:project_id', function(req, res, next) {
   });
 });
 
+router.get('/filter/:project_id/:type_filter/:tag_filter', function(req, res, next) {
+  var project_id = req.params.project_id;
+  var type_filter = req.params.type_filter;
+  var tag_filter = req.params.tag_filter;
+  var query = {_creator: project_id};
+  if (type_filter != 'all') {
+    query.type = type_filter;
+  }
+  if (tag_filter != 'all') {
+    query.tag = tag_filter;
+  }
+  Note.find(query, null, {sort: '-createdAt'}, function(err, notes) {
+    if (err) {
+      console.log(err);
+      res.json({status: false});
+    } else {
+      res.json({status: true, data: notes});
+    }
+  });
+});
+
 // save new note
 router.post('/', function(req, res, next) {
   var note = new Note({

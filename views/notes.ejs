@@ -7,7 +7,7 @@
     <div class="row">
       <div class="col-lg-3">
         <select id="type_filter" class="no_radius form-control type_select">
-          <option value="">All</option>
+          <option value="all">All</option>
           <% for (i in types) { %>
             <<option value="<%= types[i].name %>"><%= types[i].name %></option>
           <% } %>
@@ -18,7 +18,7 @@
       </div>
       <div class="col-lg-3">
         <select id="tag_filter" class="no_radius form-control tag_select">
-          <option value="">All</option>
+          <option value="all">All</option>
           <% for (i in tags) { %>
             <<option value="<%= tags[i].name %>"><%= tags[i].name %></option>
           <% } %>
@@ -186,10 +186,16 @@
     });
   }
 
+  function format_date(date) {
+    var date_split = date.split('T');
+    var date_formated = date_split[0] + ' ' + date_split[1].split('.')[0];
+    return date_formated;
+  }
+
   function add_table_row(note) {
     var table_body = $('#note_table_body');
-    var date_split = note.createdAt.split('T');
-    var date_formated = date_split[0] + ' ' + date_split[1].split('.')[0];
+    // var date_split = note.createdAt.split('T');
+    // var date_formated = date_split[0] + ' ' + date_split[1].split('.')[0];
     datatable.row.add([
       '<a href="note/'+ note._id +'">View</a>&nbsp;|&nbsp;<a href="#" onclick="show_glimpse(`'+ note._id +'`)">Glimpse</a>',
       note.title,
@@ -197,8 +203,49 @@
       note.tag,
       '',
       '',
-      date_formated
+      format_date(note.createdAt)
     ]);
+    datatable.order([6, 'desc']).draw();
+  }
+
+  $('#type_filter').change(function() {
+    var type_filter = $('#type_filter').val();
+    var tag_filter = $('#tag_filter').val();
+    get_filtered_table_data(type_filter, tag_filter);
+  });
+
+  $('#tag_filter').change(function() {
+    var type_filter = $('#type_filter').val();
+    var tag_filter = $('#tag_filter').val();
+    get_filtered_table_data(type_filter, tag_filter);
+  });
+
+  function get_filtered_table_data(type_filter, tag_filter) {
+    $.get('filter/<%= project_id %>/'+ type_filter +'/'+ tag_filter, function(response) {
+      if (response.status == true) {
+        replace_table_data(response.data)
+      } else {
+        // there was an issue
+      }
+    });
+  }
+
+  function replace_table_data(table_data) {
+    var filtered_table = [];
+    for (i in table_data) {
+      var row = table_data[i];
+      filtered_table.push([
+        '<a href="note/'+ row._id +'">View</a>&nbsp;|&nbsp;<a href="#" onclick="show_glimpse(`'+ row._id +'`)">Glimpse</a>',
+        row.title,
+        row.type,
+        row.tag,
+        '',
+        '',
+        format_date(row.createdAt)
+      ]);
+    }
+    datatable.clear();
+    datatable.rows.add(filtered_table);
     datatable.order([6, 'desc']).draw();
   }
 
