@@ -9,7 +9,7 @@
       </div>
       <div class="col-lg-4">
         <select id="type_filter" class="no_radius form-control type_select">
-          <option value="all">All</option>
+          <option value="all">All Types</option>
           <% for (i in types) { %>
             <<option value="<%= types[i].name %>"><%= types[i].name %></option>
           <% } %>
@@ -17,7 +17,7 @@
       </div>
       <div class="col-lg-4">
         <select id="tag_filter" class="no_radius form-control tag_select">
-          <option value="all">All</option>
+          <option value="all">All Tags</option>
           <% for (i in tags) { %>
             <<option value="<%= tags[i].name %>"><%= tags[i].name %></option>
           <% } %>
@@ -35,18 +35,22 @@
       <th>Title</th>
       <th>Type</th>
       <th>Tag</th>
-      <th>Steps</th>
+      <th>Link</th>
       <th>File</th>
       <th>Date</th>
     </thead>
     <tbody id="note_table_body">
       <% for (i in notes) { note = notes[i]; %>
-        <tr>
-          <td><a href="note/<%= note._id %>">View</a>&nbsp;|&nbsp;<a href="#" onclick="show_glimpse('<%= note._id %>')">Glimpse</a></td>
-          <td><h5 style="padding:0;margin:0;"><%= note.title; %></h5></td>
+        <tr id="row_<%= note._id %>">
+          <td><a href="note/<%= note._id; %>">View</a>&nbsp;|&nbsp;<a href="#" onclick="show_glimpse('<%= note._id; %>')">Glimpse</a></td>
+          <td><h5 style="padding:0;"><b><%= note.title; %></b></h5></td>
           <td><%= note.type; %></td>
           <td><%= note.tag; %></td>
-          <td></td>
+          <% if (note.type == 'link' || note.type == 'video') { %>
+            <td><a href="#" onclick="go_to_link('<%= note.type; %>', '<%= note._id; %>')">go to link</a></td>
+          <% } else { %>
+            <td></td>
+          <% }  %>
           <td></td>
           <td>
             <%
@@ -125,7 +129,7 @@
         <div id="glimpse_content"></div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-warning no_radius" onclick="delete_note()">Delete</button>
+        <button type="button" class="btn btn-warning no_radius" id="note_delete_button">Delete</button>
         <button type="button" class="btn btn-default no_radius" data-dismiss="modal">Close</button>
       </div>
     </div>
@@ -155,6 +159,24 @@
       });
   });
 
+  function go_to_link(link_type, note_id) {
+    var note_content = '';
+    for (i in notes) {
+      if (notes[i].id == note_id) {
+        note_content = notes[i].content;
+        break;
+      }
+    }
+    if (link_type == 'video') {
+      var content_split = note_content.split('"');
+      var video_url = 'https://' + content_split[1].replace('//', '').replace('/embed/', '/watch?v=');
+      window.open(video_url);
+    } else {
+      var content_split = note_content.split('"');
+      window.open(content_split[1]);
+    }
+  }
+
   function save_note(project_id) {
     var note_data = {
       project_id: project_id,
@@ -170,9 +192,9 @@
         $('#create_note_modal').modal('toggle');
         setTimeout(function() {
           $('#title_input').val('');
-          $('#content_input').val('');
           $('#type_input').val('');
           $('#tag_input').val('');
+          $('#summernote').summernote('code', '');
         }, 2000);
         notes.push({
           id: note._id,
@@ -196,17 +218,16 @@
 
   function add_table_row(note) {
     var table_body = $('#note_table_body');
-    // var date_split = note.createdAt.split('T');
-    // var date_formated = date_split[0] + ' ' + date_split[1].split('.')[0];
-    datatable.row.add([
+    var row = datatable.row.add([
       '<a href="note/'+ note._id +'">View</a>&nbsp;|&nbsp;<a href="#" onclick="show_glimpse(`'+ note._id +'`)">Glimpse</a>',
-      '<h5 style="padding:0;margin:0;">'+ note.title +'</h5>',
+      '<h5 style="padding:0;"><b>'+ note.title +'</b></h5>',
       note.type,
       note.tag,
       '',
       '',
       format_date(note.createdAt)
-    ]);
+    ]).node();
+    $(row).attr('id', 'row_' + note._id);
     datatable.order([6, 'desc']).draw();
   }
 
@@ -262,7 +283,7 @@
     }
   }
 
-  function delete_note() {
+  $('#note_delete_button').click(function() {
     var note_id = $('#glimpse_note_id').html();
     if (confirm('Are you sure you want to delete this note?')) {
       $.ajax({
@@ -271,12 +292,12 @@
         success: function(response) {
           if (response.status == true) {
             $('#glimpse_modal').modal('toggle');
-            // remove row from table
+            datatable.row($('#row_' + note_id)).remove().order([6, 'desc']).draw(false);
           }
         },
       });
     }
-  }
+  });
 
   $('#new_type_input').keyup(function(event){
     if(event.keyCode == 13) {

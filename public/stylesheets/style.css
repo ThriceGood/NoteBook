@@ -199,7 +199,13 @@ body {
 }
 
 #content_change_alert {
-  opacity: 0.5;
+  opacity: 0.9;
   float: right;
   margin: none;
+}
+
+#check_icon {
+  float: right;
+  margin-right: 20px;
+  margin-top: 3px;
 }
