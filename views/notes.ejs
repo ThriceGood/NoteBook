@@ -41,23 +41,27 @@
     </thead>
     <tbody id="note_table_body">
       <% for (i in notes) { note = notes[i]; %>
-        <tr id="row_<%= note._id %>">
-          <td><a href="note/<%= note._id; %>">View</a>&nbsp;|&nbsp;<a href="#" onclick="show_glimpse('<%= note._id; %>')">Glimpse</a></td>
-          <td><h5 style="padding:0;"><b><%= note.title; %></b></h5></td>
-          <td><%= note.type; %></td>
-          <td><%= note.tag; %></td>
-          <% if (note.type == 'link' || note.type == 'video') { %>
-            <td><a href="#" onclick="go_to_link('<%= note.type; %>', '<%= note._id; %>')">go to link</a></td>
-          <% } else { %>
-            <td></td>
-          <% }  %>
-          <td></td>
+        <tr class="note_table_row" id="row_<%= note._id %>">
+          <td><div class="actions_cell_div"><a href="note/<%= note._id; %>">View</a>&nbsp;|&nbsp;<a href="#" onclick="show_glimpse('<%= note._id; %>')">Glimpse</a></div></td>
+          <td><div class="cell_div"><h5><b><%= note.title; %></b></h5></div></td>
+          <td><div class="cell_div"><%= note.type; %></div></td>
+          <td><div class="cell_div"><%= note.tag; %></div></td>
           <td>
-            <%
-              var date_split = note.createdAt.toISOString().split('T');
-              var date_formated = date_split[0] + ' ' + date_split[1].split('.')[0];
-            %>
-            <%= date_formated %>
+            <div class="cell_div">
+              <% if (note.type == 'link' || note.type == 'video') { %>
+                <a href="#" onclick="go_to_link('<%= note.type; %>', '<%= note._id; %>')">go to link</a>
+              <% } %>
+            </div>
+          </td>
+          <td><div class="cell_div"></div></td>
+          <td>
+            <div class="cell_div">
+              <%
+                var date_split = note.createdAt.toISOString().split('T');
+                var date_formated = date_split[0] + ' ' + date_split[1].split('.')[0];
+              %>
+              <%= date_formated %>
+            </div>
           </td>
         </tr>
       <% } %>
@@ -219,15 +223,16 @@
   function add_table_row(note) {
     var table_body = $('#note_table_body');
     var row = datatable.row.add([
-      '<a href="note/'+ note._id +'">View</a>&nbsp;|&nbsp;<a href="#" onclick="show_glimpse(`'+ note._id +'`)">Glimpse</a>',
-      '<h5 style="padding:0;"><b>'+ note.title +'</b></h5>',
-      note.type,
-      note.tag,
-      '',
-      '',
-      format_date(note.createdAt)
+      '<div class="actions_cell_div"><a href="note/'+ note._id +'">View</a>&nbsp;|&nbsp;<a href="#" onclick="show_glimpse(`'+ note._id +'`)">Glimpse</a></div>',
+      '<div class="cell_div"><h5 style="padding:0;margin:0;"><b>'+ note.title +'</b></h5></div>',
+      '<div class="cell_div">'+ note.type +'</div>',
+      '<div class="cell_div">'+ note.tag +'</div>',
+      '<div class="cell_div"></div>',
+      '<div class="cell_div"></div>',
+      '<div class="cell_div">'+ format_date(note.createdAt) +'</div>'
     ]).node();
     $(row).attr('id', 'row_' + note._id);
+    $(row).attr('class', 'note_table_row');
     datatable.order([6, 'desc']).draw();
   }
 
@@ -292,7 +297,7 @@
         success: function(response) {
           if (response.status == true) {
             $('#glimpse_modal').modal('toggle');
-            datatable.row($('#row_' + note_id)).remove().order([6, 'desc']).draw(false);
+            datatable.row($('#row_' + note_id)).remove().order([6, 'desc']).draw();
           }
         },
       });

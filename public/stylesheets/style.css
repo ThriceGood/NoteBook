@@ -173,8 +173,21 @@ body {
   margin: 60px auto;
 }
 
+.cell_div {
+  padding: 8px 0;
+}
 
-/* NOTE VIEW */
+.actions_cell_div {
+  padding: 8px 5px;
+}
+
+.note_table_row h5 {
+  padding: 0;
+  margin: 0;
+}
+
+
+/* NOTEVIEW */
 
 #note_header {
   margin-bottom: 20px;
