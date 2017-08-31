@@ -87,13 +87,17 @@
         if (response.status == true) {
           // no issues, give some feedback
           $('#check_icon').fadeIn(function() {
-            $('#check_icon').fadeOut();
+            setTimeout(check_fade_out, 1000);
           });
         } else {
           // there was an issue
         }
       },
     });
+  }
+
+  function check_fade_out() {
+    $('#check_icon').fadeOut();
   }
 
 </script>

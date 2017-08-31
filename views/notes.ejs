@@ -43,7 +43,7 @@
       <% for (i in notes) { note = notes[i]; %>
         <tr class="note_table_row" id="row_<%= note._id %>">
           <td><div class="actions_cell_div"><a href="note/<%= note._id; %>">View</a>&nbsp;|&nbsp;<a href="#" onclick="show_glimpse('<%= note._id; %>')">Glimpse</a></div></td>
-          <td><div class="cell_div"><h5><b><%= note.title; %></b></h5></div></td>
+          <td><div class="cell_div"><h5 class="note_title_header"><b><%= note.title; %></b></h5></div></td>
           <td><div class="cell_div"><%= note.type; %></div></td>
           <td><div class="cell_div"><%= note.tag; %></div></td>
           <td>
@@ -222,15 +222,19 @@
 
   function add_table_row(note) {
     var table_body = $('#note_table_body');
-    var row = datatable.row.add([
+    var row_data = [
       '<div class="actions_cell_div"><a href="note/'+ note._id +'">View</a>&nbsp;|&nbsp;<a href="#" onclick="show_glimpse(`'+ note._id +'`)">Glimpse</a></div>',
-      '<div class="cell_div"><h5 style="padding:0;margin:0;"><b>'+ note.title +'</b></h5></div>',
+      '<div class="cell_div"><h5 class="note_title_header"><b>'+ note.title +'</b></h5></div>',
       '<div class="cell_div">'+ note.type +'</div>',
       '<div class="cell_div">'+ note.tag +'</div>',
       '<div class="cell_div"></div>',
       '<div class="cell_div"></div>',
       '<div class="cell_div">'+ format_date(note.createdAt) +'</div>'
-    ]).node();
+    ];
+    if (note.type == 'link' || note.type == 'video') {
+      row_data[4] = `<div class="cell_div"><a href="#" onclick="go_to_link('`+ note.type +`', '`+ note._id +`')">go to link</a></div>`
+    }
+    var row = datatable.row.add(row_data).node();
     $(row).attr('id', 'row_' + note._id);
     $(row).attr('class', 'note_table_row');
     datatable.order([6, 'desc']).draw();
@@ -260,20 +264,25 @@
 
   function replace_table_data(table_data) {
     var filtered_table = [];
-    for (i in table_data) {
-      var row = table_data[i];
-      filtered_table.push([
-        '<a href="note/'+ row._id +'">View</a>&nbsp;|&nbsp;<a href="#" onclick="show_glimpse(`'+ row._id +'`)">Glimpse</a>',
-        '<h5 style="padding:0;margin:0;">'+ row.title +'</h5>',
-        row.type,
-        row.tag,
-        '',
-        '',
-        format_date(row.createdAt)
-      ]);
-    }
     datatable.clear();
-    datatable.rows.add(filtered_table);
+    for (i in table_data) {
+      var note = table_data[i];
+      var row_data = [
+        '<div class="actions_cell_div"><a href="note/'+ note._id +'">View</a>&nbsp;|&nbsp;<a href="#" onclick="show_glimpse(`'+ note._id +'`)">Glimpse</a></div>',
+        '<div class="cell_div"><h5 class="note_title_header"><b>'+ note.title +'</b></h5></div>',
+        '<div class="cell_div">'+ note.type +'</div>',
+        '<div class="cell_div">'+ note.tag +'</div>',
+        '<div class="cell_div"></div>',
+        '<div class="cell_div"></div>',
+        '<div class="cell_div">'+ format_date(note.createdAt) +'</div>'
+      ];
+      if (note.type == 'link' || note.type == 'video') {
+        row_data[4] = `<div class="cell_div"><a href="#" onclick="go_to_link('`+ note.type +`', '`+ note._id +`')">go to link</a></div>`
+      }
+      var row = datatable.row.add(row_data).node();
+      $(row).attr('id', 'row_' + note._id);
+      $(row).attr('class', 'note_table_row');
+    }
     datatable.order([6, 'desc']).draw();
   }
 
