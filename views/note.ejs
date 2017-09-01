@@ -7,7 +7,6 @@
     </div>
     <div class="col-lg-3">
       <select class="form-control no_radius type_select" id="type_input">
-        <option value="">Select Type</option>
         <% for (i in types) { %>
           <% if (types[i].name == note.type) { %>
             <<option selected="true" value="<%= types[i].name %>"><%= types[i].name %></option>
@@ -79,6 +78,7 @@
       tag: $('#tag_input').val(),
       content: $('#summernote').summernote('code')
     }
+    if (note_input_validation(note_data)) return;
     $.ajax({
       url: "/notes",
       type: 'PUT',
@@ -98,6 +98,17 @@
 
   function check_fade_out() {
     $('#check_icon').fadeOut();
+  }
+
+  function note_input_validation(note_data) {
+    errors = false;
+    if (!note_data.title) {
+      $('#title_input').addClass('error_shadow');
+      errors = true;
+    } else {
+      $('#title_input').removeClass('error_shadow');
+    }
+    return errors;
   }
 
 </script>

@@ -11,6 +11,12 @@ body {
   border-radius: 0;
 }
 
+.error_shadow {
+   -moz-box-shadow: 0 0 2px 2px #ff3232;
+   -webkit-box-shadow: 0 0 2px 2px #ff3232;
+   box-shadow: 0 0 2px 2px #ff3232;
+}
+
 /* PROJECTS */
 
 .grid_wrapper {
@@ -112,17 +118,22 @@ body {
 
 .add_project_cancel_btn {
   float: right;
+  height: 35px;
+  width: 29%;
   border-radius: 0;
 }
 
 .add_project_save_btn {
   float: right;
+  height: 35px;
+  width: 29%;
   border-radius: 0;
 }
 
 .add_project_colour_select {
   float: left;
-  width: 51%;
+  width: 40%;
+  height: 35px;
   border-radius: 0;
 }
 
