@@ -6,6 +6,10 @@ A notebook and organization application for saving and organizing notes, links, 
 - Backend:  NodeJS, MongoDB
 - Frontend: JQuery, Bootstrap (bootswatch themes), Datatables, Summernote WYSIWYG editor
 
+Technical note: Page refreshing only happens when going to notes view and singular note view.
+Every other action like adding a project, saving a note, editing notes is made over AJAX with
+the content dynamically updated using JQuery.
+
 The project screen allows you to create projects to store related notes in.
 
 ![alt tag](https://raw.githubusercontent.com/ThriceGood/NoteBook/master/pictures/1.png)
@@ -19,7 +23,7 @@ A project contains its related notes. They are in a dynamic datatable and are al
 ![alt tag](https://raw.githubusercontent.com/ThriceGood/NoteBook/master/pictures/4.png)
 
 The create note form is in a Bootstrap modal. From here you and also add new tags and types.
-The Summernote editor can be used to give your notes basic styling as well as to ad hyperlinks and embedded videos.
+The Summernote editor can be used to give your notes basic styling as well as to add hyperlinks and embedded videos.
 
 ![alt tag](https://raw.githubusercontent.com/ThriceGood/NoteBook/master/pictures/5.png)
 
