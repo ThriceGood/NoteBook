@@ -3,8 +3,8 @@ NoteBook
 
 A notebook and organization application for saving and organizing notes, links, files and documentation.
 
-Backend:  NodeJS, MongoDB
-Frontend: JQuery, Bootstrap (bootswatch themes), Datatables, Summernote WYSIWYG editor
+- Backend:  NodeJS, MongoDB
+- Frontend: JQuery, Bootstrap (bootswatch themes), Datatables, Summernote WYSIWYG editor
 
 The project screen allows you to create projects to store related notes in.
 
